@@ -1,0 +1,189 @@
+<html>
+<head>
+	<title>MP3 List Administrator</title>
+</head>
+<body>
+<?php
+if(isset($_POST['delete'])){
+		$filenom = $_POST['filenom'];
+		unlink($filenom);
+}
+?>
+
+<form action="" method="POST" enctype="multipart/form-data">
+Browse file to upload <input type="file" name="uploadedfile" id="uploadedfile"><br/>
+<input type="hidden" name="SubmitCheck" value="sent">
+<input type="submit" name="sb" id="sb" value="Upload now">
+</form>
+
+<?php
+
+echo "Files may be between 500kb and 5mb in size. File upload may take a few minutes. Files must have ID3 fields filled in.<br /><br />";
+
+
+if (isset($_POST['SubmitCheck'])){
+
+$target_path = "mp3/";
+
+$flag = 0; // Safety net, if this gets to 1 at any point in the process, we don't upload.
+
+$filename = $_FILES['uploadedfile']['name'];
+$filesize = $_FILES['uploadedfile']['size'];
+$mimetype = $_FILES['uploadedfile']['type'];
+
+$filename = htmlentities($filename);
+$filesize = htmlentities($filesize);
+$mimetype = htmlentities($mimetype);
+
+$target_path = $target_path . basename( $filename );
+
+//First generate a MD5 hash of what the new file name will be
+//Force a MP3 extention on the file we are uploading
+
+$hashedfilename = md5($filename);
+$hashedfilename = $hashedfilename.".mp3";
+
+//Check for empty file
+if($filename == ""){
+$error = "No File Exists!";
+$flag = $flag + 1;
+
+}
+
+//Now we check that the file doesn't already exist.
+$existname = "mp3/".$hashedfilename;
+
+if(file_exists($existname)){
+
+if($flag == 0){
+$error = "Your file already exists on the server!  
+Please choose another file to upload or rename the file on your
+computer and try uploading it again!";
+}
+
+$flag = $flag + 1;
+}
+
+//Whitelisted files - Only allow files with MP3 extension onto server...
+
+$whitelist = array(".mp3");
+foreach ($whitelist as $ending) {
+
+if(substr($filename, -(strlen($ending))) != $ending) {
+ $error = "The file type or extension you are trying to upload is not allowed!  
+You can only upload MP3 files to the server!";
+$flag++;
+}
+}
+
+
+//Now we check the filesize.  If it is too big or too small then we reject it
+//MP3 files should be at least 1MB and no more than 6.5 MB
+
+if($filesize > 5242880){
+//File is too large
+
+if($flag == 0){
+$error = "The file you are trying to upload is too large!  
+Your file can only be up to 5 MB in size.  
+Please upload a smaller MP3 file or encode your file with a lower bitrate.";
+}
+
+$flag = $flag + 1;
+}
+
+if($filesize < 256000){
+//File is too small
+
+if($flag == 0){
+$error = "The file you are trying to upload is too small!
+Your file has been marked as suspicious because our system has
+determined that it is too small to be a valid MP3 file.
+Valid MP3 files must be bigger than 500 KB and smaller than 5 MB.";
+}
+
+$flag = $flag + 1;
+
+}
+
+/*
+if($mimetype != "audio/x-mp3" and $mimetype != "audio/mpeg" and $mimetype != "audio/x-mpeg" and $mimetype != "audio/mp3" and $mimetype != "audio/mpeg3" and $mimetype != "audio/x-mpeg3" and $mimetype != "audio/mpg" and $mimetype != "audio/x-mpg" and $mimetype != "audio/x-mpegaudio"){
+
+if($flag == 0){
+$error = "The file you are trying to upload contains unexpected data.
+Are you sure that the file is an MP3?";
+}
+
+$flag = $flag + 1;
+} */
+
+//Check that the file really is an MP3 file by reading the first few characters of the file
+$f = @fopen($_FILES['uploadedfile']['tmp_name'],'r');
+$s = @fread($f,3);
+@fclose($f);
+if($s != "ID3"){
+
+if($flag == 0){
+$error = "The file you are attempting to upload does not appear to be a valid MP3 file.";
+}
+
+$flag++;
+}
+
+
+
+//All checks are done, actually move the file...
+
+if($flag == 0){
+
+if(move_uploaded_file($_FILES['uploadedfile']['tmp_name'], $target_path)) {
+   
+ 
+    //FORCE an MP3 extension.
+
+    if(@file_exists("mp3/".$filename)){
+
+    echo "The following file has been uploaded:<br>\n ";
+	echo "Beginning upload process for file named: ".$filename."<br>";
+	echo "Filesize: ".$filesize."<br>";
+	echo "Type: ".$mimetype."<br><br>";
+   
+    }  
+    else{
+      echo "There was an error uploading the file, please try again!";
+    }
+
+
+} else{
+    echo "There was an error uploading the file, please try again!";
+}
+
+}
+else {
+echo "File Upload Failed!<br>";
+if($error != ""){
+echo $error;
+}
+}
+}
+?>
+
+<?php
+
+if ($handle = opendir('/home/gearsofw/public_html/testmp3/mp3')) {
+    echo "<p><a href=\"index.phtml\">See guestview here</a></p>\n";
+	echo "<p>Directory handle: $handle</p>\n";
+    echo "<p>Entries:</p>\n";
+
+    /* This is the correct way to loop over the directory. */
+    while (false !== ($entry = readdir($handle))) {
+		if ($entry != "." && $entry != "..") {
+			echo "<p><form action=\"uploader.phtml\" method=\"post\">$entry <input type=\"hidden\" name=\"filenom\" id=\"filenom\" value=\"/home/gearsofw/public_html/testmp3/mp3/$entry\" /><input type=\"submit\" name=\"delete\" value=\"Delete\" /></form><embed src=\"http://www.google.com/reader/ui/3523697345-audio-player.swf\" flashvars=\"audioUrl=http://www.urbandecayweb.co.uk/testmp3/mp3/$entry\" width=\"400\" height=\"27\" pluginspage=\"http://www.macromedia.com/go/getflashplayer\"></embed></p>\n";
+		}
+    }
+
+    closedir($handle);
+}
+?>
+</body>
+</html>

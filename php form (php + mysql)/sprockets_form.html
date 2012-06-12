@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Sprockets - Save your details</title>
+<!-- <link href="styles.css" rel="stylesheet" type="text/css" /> -->
+<meta name="description" content="Sprockets of the very best quality!" />
+<meta name="keywords" content="Sprockets,sprockets,manufacturing,uk" />
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+<script type="text/javascript">
+//<![CDATA[
+function validateInput() {
+
+	var validationProblem = "";
+	
+	var firstName = $("#firstName").val();
+	if (firstName.length == 0) {
+		
+		validationProblem = "- You must provide your first name.\n";
+		
+	}
+	
+	var lastName = $("#lastName").val();
+	if (lastName.length == 0) {
+		
+		validationProblem = validationProblem.concat("- You must provide your last name.\n");
+		
+	}
+	
+	var telNum = $("#telNum").val();
+	if (telNum.length == 0) {
+		
+		validationProblem = validationProblem.concat("- You must provide your telephone number.\n");
+		
+	}
+	
+	if (validationProblem.length == 0) $("#detailsForm").submit();
+	else alert(validationProblem);
+	
+}
+//]]>
+</script>
+</head>
+<body>
+<form id="detailsForm" method="post" action="saveuserdetails.php">
+<label>
+<span class="formLabel">First Name:</span> <input maxlength="50" type="text" id="firstName" name="name_first" />
+</label><br />
+
+<label>
+<span class="formLabel">Last Name:</span> <input maxlength="50" type="text" id="lastName" name="name_last" />
+</label><br />
+
+<label>
+<span class="formLabel">Telephone Number:</span> <input maxlength="35" type="text" id="telNum" name="num_tel" />
+</label><br />
+
+<label>
+<span class="formLabel">Address:</span> <textarea maxlength="1024" type="text" id="address" name="address"></textarea>
+</label><br />
+
+<input value="Save" type="button" onclick="validateInput();" />
+</form>
+</body>
+
+</html>

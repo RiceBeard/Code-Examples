@@ -1,0 +1,59 @@
+body { font-family:arial,tahoma,verdana; font-size:8pt; background-color:#f6f6f6; color:#6a6a6a; margin: 0; }
+a:link { text-decoration:none; color:#6a6a6a; }
+a:visited { color:#6a6a6a; }
+a:hover { text-decoration:underline; }
+div { position: relative; border:0; margin:0; padding:0; vertical-align: baseline; } 
+#wrapper { width: 990px; margin: 0 auto; min-height:100%; background-color:#ffffff; }
+#container { width: 970px; padding: 0 10px; min-height:100%; height:1000px; }
+
+#search_boxes { top: 12px; left: 20px; width:500px; }
+#deals_carousel4 { padding: 0; }
+
+#subheader { padding-bottom: 7px; }
+#left_sidebar { width:165px; padding: 0 3px 3px; }
+#main { width:621px; padding: 0 3px 3px; }
+#right_sidebar { width:165px; padding: 0 0 3px 3px; }
+
+
+.left  { float: left; }
+.right { float: right; }
+
+#left_sidebar .left  { float: left; padding-bottom: 7px; }
+#left_sidebar .right { float: right; padding-bottom: 7px; }
+#main .left  { float: left; padding-bottom: 7px; }
+#main .right { float: right; padding-bottom: 7px; }
+#right_sidebar .left  { float: left; padding-bottom: 7px; }
+#right_sidebar .right { float: right; padding-bottom: 7px; }
+.deals  { width:150px; height:192px; padding: 0 7px 7px 0; }
+
+			
+/* Subnavigation */
+#subnavbar { padding:8px; color:#fff; font-size:9pt; }
+#subnavbar a:link { font-weight:bold; color:#fff; }
+#subnavbar a:visited { color:#fff; }
+#subnavbar a:hover { color:#000; text-decoration:none; }
+
+/* Navigation Block */
+#nav_block { float:left; color:#1b3f93; font-size:9pt; }
+#nav_block ul { padding:0; margin:0; list-style-type:none; } 
+#nav_block li { margin-left:0px; } 
+#nav_block a:link { display:block; color:#1b3f93; width:159px; padding:3px; }
+#nav_block a:hover { background-color:#eee; } 
+
+li.spacer { display: block; height: 1px; background: url('navspacer.gif'); padding:0; margin:0; font-size:0pt; } 
+
+.logo { display: block; height: 80px; width: 219px; background: url('logo.jpg'); }
+#navbar { display: block; height: 33px; background: url('navbar.jpg'); }
+#subnavbar { background: url('subnav.jpg'); }
+.nav_block { display: block; height: 23px; background: url('navblockhead.jpg'); }
+
+#shop_cart_small { left:6px; }
+.shop_cart { display: block; height: 46px; width: 248px; background: url('minicart.jpg'); }
+
+.gbp { display: inline-block; height: 20px; width: 38px; background: url('gbp.jpg') no-repeat;  }
+.euro { display: inline-block; height: 20px; width: 38px; background: url('euro.jpg') no-repeat; }
+
+#topright_links { margin-top:4px; }
+#topright_box { width:238px; }
+
+#search_container { height:50px; margin-top:16px; background-image:url('searchblock.jpg'); }
